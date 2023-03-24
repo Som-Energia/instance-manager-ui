@@ -6,11 +6,10 @@ import {Instance} from "@/domain/Instance";
 
 export default function InstanceWidgetList() {
 
+    const instanceRepository = new InstanceApiRepository();
     const [instances, setInstances] = useState<Instance[]>([])
 
     useEffect(() => {
-        const instanceRepository = new InstanceApiRepository();
-
         const fetchData = async () => {
             const data = await instanceRepository.search();
             setInstances(data);

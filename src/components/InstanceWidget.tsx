@@ -1,15 +1,27 @@
-import {Button, Card, CardActions, CardContent, Stack, Typography} from "@mui/material";
+import {Button, Card, CardActions, CardContent, Chip, Stack, Typography} from "@mui/material";
 import CommitIcon from '@mui/icons-material/Commit';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
 import LinkIcon from '@mui/icons-material/Link';
 import {Instance} from "@/domain/Instance";
+import {useState} from "react";
+import DeleteInstanceDialog from "@/components/dialogs/DeleteInstanceDialog";
 
 export default function InstanceWidget({instance}: { instance: Instance }) {
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [instanceDelete, setInstanceDelete] = useState(false);
+
+    const handleDeleteDialogOpen = () => {
+        setDeleteDialogOpen(true);
+    };
+
     return (
         <>
             <Card sx={{p: 2}}>
                 <CardContent>
+                    {instanceDelete &&
+                        <Chip label="Deleting..." color="error" sx={{mb: 1.5}}/>
+                    }
                     <Typography variant="h5">
                         instance-{instance.name}
                     </Typography>
@@ -37,15 +49,22 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                             {instance.connectionUrl}
                         </Typography>
                     </Stack>
-                    <Typography sx={{fontSize: 14, mt: 2}} color="text.secondary" gutterBottom>
+                    <Typography sx={{fontSize: 14, mt: 2}} color="text.secondary" gutterBottom hidden>
                         Created at 13-01-2023
                     </Typography>
                 </CardContent>
                 <CardActions>
                     <Button color="primary" disabled>LOGS</Button>
-                    <Button color="error" disabled>DELETE</Button>
+                    <Button color="error" onClick={handleDeleteDialogOpen} disabled={instanceDelete}>DELETE</Button>
                 </CardActions>
             </Card>
+            <DeleteInstanceDialog
+                instance={instance}
+                openDeleteDialog={deleteDialogOpen}
+                setDeleteDialogOpen={setDeleteDialogOpen}
+                instanceDelete={instanceDelete}
+                setInstanceDelete={setInstanceDelete}
+            />
         </>
     );
 }
