@@ -1,6 +1,5 @@
 import {Box, Button, Container, Divider, Typography} from "@mui/material";
-import InstanceList from "@/components/instance-list";
-
+import InstanceWidgetList from "@/components/InstanceWidgetList";
 
 export default function InstanceDashboard() {
     const styles = {
@@ -18,15 +17,16 @@ export default function InstanceDashboard() {
             marginLeft: 'auto',
         },
     };
+
     return (
         <Container sx={{my: 5}}>
             <Box style={styles.root}>
                 <Typography variant="h3" style={styles.text}>Current instances</Typography>
-                <Button variant="contained" color="primary"> New instance </Button>
+                <Button variant="contained" color="primary">New instance</Button>
                 <Divider/>
             </Box>
             <Container sx={{my: 5}}>
-                <InstanceList></InstanceList>
+                <InstanceWidgetList></InstanceWidgetList>
             </Container>
         </Container>
     )
