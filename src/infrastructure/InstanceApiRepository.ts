@@ -1,5 +1,5 @@
-import {InstanceRepository} from "@/domain/InstanceRepository"
-import {Instance} from "@/domain/Instance"
+import { InstanceRepository } from "@/domain/InstanceRepository"
+import { Instance } from "@/domain/Instance"
 
 export class InstanceApiRepository implements InstanceRepository {
     async search(): Promise<Instance[]> {
@@ -13,7 +13,7 @@ export class InstanceApiRepository implements InstanceRepository {
                         commit: item.git_info.commit,
                         branch: item.git_info.branch,
                         pull_request: item.git_info.pull_request,
-                        connectionUrl: item.connection,
+                        connectionUrl: item.connection
                     };
                 })
             });

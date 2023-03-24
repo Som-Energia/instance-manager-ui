@@ -10,11 +10,19 @@ export default function InstanceWidgetList() {
 
     useEffect(() => {
         const instanceRepository = new InstanceApiRepository();
-        instanceRepository.search()
-            .then((data) => {
-                setInstances(data)
-            });
 
+        const fetchData = async () => {
+            const data = await instanceRepository.search();
+            setInstances(data);
+        };
+
+        fetchData();
+
+        const intervalId = setInterval(() => {
+            fetchData();
+        }, 10000);
+
+        return () => clearInterval(intervalId);
     }, []);
 
     return (
