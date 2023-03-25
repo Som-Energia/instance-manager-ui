@@ -29,6 +29,7 @@ export default function CreateInstanceDialog
 
     const handleClose = () => {
         setCreateDialogOpen(false);
+        setErrorMessage(false);
     };
 
     const handleSubmit = () => {
