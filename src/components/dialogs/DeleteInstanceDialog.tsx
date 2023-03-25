@@ -6,13 +6,13 @@ import {Instance} from "@/domain/Instance";
 export default function DeleteInstanceDialog
 ({
      instance,
-     openDeleteDialog,
+     deleteDialogOpen,
      setDeleteDialogOpen,
      instanceDelete,
      setInstanceDelete
  }: {
     instance: Instance,
-    openDeleteDialog: boolean,
+    deleteDialogOpen: boolean,
     setDeleteDialogOpen: Function,
     instanceDelete: boolean, setInstanceDelete: Function
 }) {
@@ -34,10 +34,8 @@ export default function DeleteInstanceDialog
 
     return (
         <Dialog
-            open={openDeleteDialog}
+            open={deleteDialogOpen}
             onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
         >
             <DialogTitle id="alert-dialog-title">
                 {"Delete instance " + instance.name + "?"}
@@ -49,8 +47,8 @@ export default function DeleteInstanceDialog
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleDelete}>DELETE</Button>
                 <Button onClick={handleClose}>CANCEL</Button>
+                <Button onClick={handleDelete}>DELETE</Button>
             </DialogActions>
         </Dialog>
     )

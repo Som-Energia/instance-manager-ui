@@ -60,7 +60,7 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
             </Card>
             <DeleteInstanceDialog
                 instance={instance}
-                openDeleteDialog={deleteDialogOpen}
+                deleteDialogOpen={deleteDialogOpen}
                 setDeleteDialogOpen={setDeleteDialogOpen}
                 instanceDelete={instanceDelete}
                 setInstanceDelete={setInstanceDelete}
