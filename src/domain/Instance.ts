@@ -3,6 +3,6 @@ export interface Instance {
     repository: string;
     branch: string;
     commit: string;
-    pull_request: number;
+    pullRequest: number;
     connectionUrl: string;
 }

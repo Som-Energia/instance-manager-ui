@@ -1,5 +1,6 @@
 import {InstanceRepository} from "@/domain/InstanceRepository"
 import {Instance} from "@/domain/Instance"
+import {InstanceCreatePullRequest} from "@/domain/InstanceCreatePullRequest";
 
 export class InstanceApiRepository implements InstanceRepository {
     async search(): Promise<Instance[]> {
@@ -12,7 +13,7 @@ export class InstanceApiRepository implements InstanceRepository {
                         repository: item.git_info.repository,
                         commit: item.git_info.commit,
                         branch: item.git_info.branch,
-                        pull_request: item.git_info.pull_request,
+                        pullRequest: item.git_info.pull_request,
                         connectionUrl: item.connection
                     };
                 })
@@ -24,6 +25,25 @@ export class InstanceApiRepository implements InstanceRepository {
             method: 'DELETE',
             mode: 'cors'
         })
+            .then(response => {
+                return response.ok
+            })
+            .catch(error => {
+                return false
+            });
+    }
+
+    async createPullRequest(instance: InstanceCreatePullRequest): Promise<boolean> {
+        return fetch(
+            process.env.api
+            + "/instances/deploy/pr?repository=" + instance.repository
+            + "&pull_request=" + instance.pullRequest
+            , {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
             .then(response => {
                 return response.ok
             })
