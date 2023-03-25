@@ -94,7 +94,6 @@ export default function CreateInstanceDialog
             >
                 <Alert severity="success">New instance is starting</Alert>
             </Snackbar>
-
         </>
     );
 }

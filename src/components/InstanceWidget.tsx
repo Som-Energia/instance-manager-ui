@@ -1,19 +1,25 @@
-import {Button, Card, CardActions, CardContent, Chip, Stack, Typography} from "@mui/material";
+import {Alert, Button, Card, CardActions, CardContent, Chip, Snackbar, Stack, Typography} from "@mui/material";
 import CommitIcon from '@mui/icons-material/Commit';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
 import LinkIcon from '@mui/icons-material/Link';
 import {Instance} from "@/domain/Instance";
-import {useState} from "react";
+import React, {useState} from "react";
 import DeleteInstanceDialog from "@/components/dialogs/DeleteInstanceDialog";
 
 export default function InstanceWidget({instance}: { instance: Instance }) {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [instanceDelete, setInstanceDelete] = useState(false);
+    const [successMessage, setSuccessMessage] = useState(false);
 
     const handleDeleteDialogOpen = () => {
         setDeleteDialogOpen(true);
     };
+
+    const handleCopyConnection = () => {
+        setSuccessMessage(true)
+        navigator.clipboard.writeText("http://" + instance.connectionUrl)
+    }
 
     return (
         <>
@@ -54,6 +60,7 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                     </Typography>
                 </CardContent>
                 <CardActions>
+                    <Button color="primary" onClick={handleCopyConnection}>COPY CONNECTION</Button>
                     <Button color="primary" disabled>LOGS</Button>
                     <Button color="error" onClick={handleDeleteDialogOpen} disabled={instanceDelete}>DELETE</Button>
                 </CardActions>
@@ -65,6 +72,15 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                 instanceDelete={instanceDelete}
                 setInstanceDelete={setInstanceDelete}
             />
+            <Snackbar
+                open={successMessage}
+                autoHideDuration={5000}
+                onClose={() => {
+                    setSuccessMessage(false)
+                }}
+            >
+                <Alert severity="success">The instance connection URL has been copied to your clipboard</Alert>
+            </Snackbar>
         </>
     );
 }
