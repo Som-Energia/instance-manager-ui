@@ -6,6 +6,8 @@ import LinkIcon from '@mui/icons-material/Link';
 import {Instance} from "@/domain/Instance";
 import React, {useState} from "react";
 import DeleteInstanceDialog from "@/components/dialogs/DeleteInstanceDialog";
+import Link from "next/link";
+import {CallMerge} from "@mui/icons-material";
 
 export default function InstanceWidget({instance}: { instance: Instance }) {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -50,6 +52,12 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                         </Typography>
                     </Stack>
                     <Stack direction="row" alignItems="center" gap={1} sx={{mt: 1.5, overflow: 'hidden'}}>
+                        <CallMerge/>
+                        <Typography sx={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                            {instance.pullRequest}
+                        </Typography>
+                    </Stack>
+                    <Stack direction="row" alignItems="center" gap={1} sx={{mt: 1.5, overflow: 'hidden'}}>
                         <LinkIcon/>
                         <Typography sx={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
                             {instance.connectionUrl}
@@ -60,8 +68,11 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button color="primary" onClick={handleCopyConnection}>COPY CONNECTION</Button>
-                    <Button color="primary" disabled>LOGS</Button>
+                    <Button color="primary" onClick={handleCopyConnection}>COPY</Button>
+                    <Link href={"/logs/" + instance.name} style={{textDecoration: 'none'}}>
+                        <Button color="primary">LOGS</Button>
+                    </Link>
+                    <Button color="primary" disabled>TERMINAL</Button>
                     <Button color="error" onClick={handleDeleteDialogOpen} disabled={instanceDelete}>DELETE</Button>
                 </CardActions>
             </Card>

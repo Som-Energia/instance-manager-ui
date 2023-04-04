@@ -7,4 +7,6 @@ export interface InstanceRepository {
     delete(instance: Instance): Promise<boolean>;
 
     createPullRequest(instance: InstanceCreatePullRequest): Promise<boolean>;
+
+    logsByName(name: string): Promise<string>;
 }

@@ -51,4 +51,16 @@ export class InstanceApiRepository implements InstanceRepository {
                 return false
             });
     }
+
+    async logsByName(name: string): Promise<string> {
+        return fetch(
+            process.env.api
+            + "/instances/" + name + "/logs", {mode: 'cors'})
+            .then(response => {
+                return response.json()
+            })
+            .catch(error => {
+                return false
+            });
+    }
 }
