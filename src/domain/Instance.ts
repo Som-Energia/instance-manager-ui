@@ -4,5 +4,5 @@ export interface Instance {
     branch: string;
     commit: string;
     pullRequest: number;
-    connectionUrl: string;
+    port: string;
 }

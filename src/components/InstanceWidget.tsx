@@ -19,8 +19,8 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
     };
 
     const handleCopyConnection = () => {
-        setSuccessMessage(true)
-        navigator.clipboard.writeText("http://" + instance.connectionUrl)
+        setSuccessMessage(true);
+        navigator.clipboard.writeText(instance.port);
     }
 
     return (
@@ -60,7 +60,7 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                     <Stack direction="row" alignItems="center" gap={1} sx={{mt: 1.5, overflow: 'hidden'}}>
                         <LinkIcon/>
                         <Typography sx={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                            {instance.connectionUrl}
+                            {process.env.nodeIp}:{instance.port}
                         </Typography>
                     </Stack>
                     <Typography sx={{fontSize: 14, mt: 2}} color="text.secondary" gutterBottom hidden>
@@ -72,7 +72,9 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                     <Link href={"/logs/" + instance.name} style={{textDecoration: 'none'}}>
                         <Button color="primary">LOGS</Button>
                     </Link>
-                    <Button color="primary" disabled>TERMINAL</Button>
+                    <Link href={"/terminal/" + instance.name} style={{textDecoration: 'none'}}>
+                        <Button color="primary">TERMINAL</Button>
+                    </Link>
                     <Button color="error" onClick={handleDeleteDialogOpen} disabled={instanceDelete}>DELETE</Button>
                 </CardActions>
             </Card>
