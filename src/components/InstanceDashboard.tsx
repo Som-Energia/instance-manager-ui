@@ -34,7 +34,7 @@ export default function InstanceDashboard() {
                 <Divider/>
             </Box>
             <Container sx={{my: 5}}>
-                <InstanceWidgetList></InstanceWidgetList>
+                <InstanceWidgetList/>
             </Container>
             <CreateInstanceDialog
                 createDialogOpen={createDialogOpen}
