@@ -18,7 +18,14 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
         setDeleteDialogOpen(true);
     };
 
-    const handleCopyConnection = () => {
+    const handleCopyIp = () => {
+        if (process.env.nodeIp) {
+            navigator.clipboard.writeText(process.env.nodeIp.toString());
+            setSuccessMessage(true);
+        }
+    }
+
+    const handleCopyNode = () => {
         setSuccessMessage(true);
         navigator.clipboard.writeText(instance.port);
     }
@@ -62,7 +69,7 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                         instance-{instance.name}
                     </Typography>
                     <Typography sx={{fontSize: 14, mt: 2}} color="text.secondary" gutterBottom>
-                        {formattedDate()}
+                        Created at {formattedDate()}
                     </Typography>
                     <Stack direction="row" alignItems="center" gap={1} sx={{mt: 3}}>
                         <BusinessCenterIcon/>
@@ -96,7 +103,8 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                     </Stack>
                 </CardContent>
                 <CardActions>
-                    <Button color="primary" onClick={handleCopyConnection}>COPY</Button>
+                    <Button color="primary" onClick={handleCopyIp}>COPY IP</Button>
+                    <Button color="primary" onClick={handleCopyNode}>COPY PORT</Button>
                     <Link href={"/logs/" + instance.name} style={{textDecoration: 'none'}}>
                         <Button color="primary">LOGS</Button>
                     </Link>
@@ -118,7 +126,7 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                     setSuccessMessage(false)
                 }}
             >
-                <Alert severity="success">The instance connection URL has been copied to your clipboard</Alert>
+                <Alert severity="success">Successfully copied to your clipboard</Alert>
             </Snackbar>
         </>
     );
