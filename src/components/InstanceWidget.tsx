@@ -28,7 +28,13 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
             <Card sx={{p: 2}}>
                 <CardContent>
                     {instanceDelete &&
-                        <Chip label="Deleting..." color="error" sx={{mb: 1.5}}/>
+                        <Chip label="Deleting" color="error" sx={{mb: 1.5}}/>
+                    }
+                    {!instanceDelete && instance.is_ready &&
+                        <Chip label="Ready" color="primary" sx={{mb: 1.5}}/>
+                    }
+                    {!instanceDelete && !instance.is_ready &&
+                        <Chip label="Starting" color="warning" sx={{mb: 1.5}}/>
                     }
                     <Typography variant="h5">
                         instance-{instance.name}
