@@ -1,4 +1,4 @@
-import {Alert, Button, Card, CardActions, CardContent, Chip, Snackbar, Stack, Typography} from "@mui/material";
+import {Button, Card, CardActions, CardContent, Chip, Stack, Typography} from "@mui/material";
 import CommitIcon from '@mui/icons-material/Commit';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
@@ -9,10 +9,18 @@ import DeleteInstanceDialog from "@/components/dialogs/DeleteInstanceDialog";
 import Link from "next/link";
 import {CallMerge} from "@mui/icons-material";
 
-export default function InstanceWidget({instance}: { instance: Instance }) {
+export default function InstanceWidget(
+    {
+        instance,
+        setSuccessDeleteInstanceMessage,
+        setSuccessCopyMessage,
+    }: {
+        instance: Instance,
+        setSuccessDeleteInstanceMessage: Function,
+        setSuccessCopyMessage: Function,
+    }) {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-    const [instanceDelete, setInstanceDelete] = useState(false);
-    const [successMessage, setSuccessMessage] = useState(false);
+    const [instanceDeleted, setInstanceDeleted] = useState(false);
 
     const handleDeleteDialogOpen = () => {
         setDeleteDialogOpen(true);
@@ -21,17 +29,17 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
     const handleCopyIp = () => {
         if (process.env.nodeIp) {
             navigator.clipboard.writeText(process.env.nodeIp.toString());
-            setSuccessMessage(true);
+            setSuccessCopyMessage(true);
         }
     }
 
     const handleCopyNode = () => {
-        setSuccessMessage(true);
+        setSuccessCopyMessage(true);
         navigator.clipboard.writeText(instance.port);
     }
 
     const TerminalButton = () => {
-        if (instanceDelete || !instance.is_ready) {
+        if (instanceDeleted || !instance.is_ready) {
             return <Button color="primary" disabled>TERMINAL</Button>
 
         } else {
@@ -56,13 +64,13 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
         <>
             <Card sx={{p: 2}}>
                 <CardContent>
-                    {instanceDelete &&
+                    {instanceDeleted &&
                         <Chip label="Deleting" color="error" sx={{mb: 1.5}}/>
                     }
-                    {!instanceDelete && instance.is_ready &&
+                    {!instanceDeleted && instance.is_ready &&
                         <Chip label="Ready" color="primary" sx={{mb: 1.5}}/>
                     }
-                    {!instanceDelete && !instance.is_ready &&
+                    {!instanceDeleted && !instance.is_ready &&
                         <Chip label="Starting" color="warning" sx={{mb: 1.5}}/>
                     }
                     <Typography variant="h5">
@@ -109,25 +117,17 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                         <Button color="primary">LOGS</Button>
                     </Link>
                     {TerminalButton()}
-                    <Button color="error" onClick={handleDeleteDialogOpen} disabled={instanceDelete}>DELETE</Button>
+                    <Button color="error" onClick={handleDeleteDialogOpen}
+                            disabled={instanceDeleted}>DELETE</Button>
                 </CardActions>
             </Card>
             <DeleteInstanceDialog
                 instance={instance}
                 deleteDialogOpen={deleteDialogOpen}
                 setDeleteDialogOpen={setDeleteDialogOpen}
-                instanceDelete={instanceDelete}
-                setInstanceDelete={setInstanceDelete}
+                setInstanceDelete={setInstanceDeleted}
+                setSuccessDeleteInstanceMessage={setSuccessDeleteInstanceMessage}
             />
-            <Snackbar
-                open={successMessage}
-                autoHideDuration={5000}
-                onClose={() => {
-                    setSuccessMessage(false)
-                }}
-            >
-                <Alert severity="success">Successfully copied to your clipboard</Alert>
-            </Snackbar>
         </>
     );
 }
