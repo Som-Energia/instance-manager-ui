@@ -23,6 +23,18 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
         navigator.clipboard.writeText(instance.port);
     }
 
+    const TerminalButton = () => {
+        if (instanceDelete || !instance.is_ready) {
+            return <Button color="primary" disabled>TERMINAL</Button>
+
+        } else {
+            return (
+                <Link href={"/terminal/" + instance.name} style={{textDecoration: 'none'}}>
+                    <Button color="primary">TERMINAL</Button>
+                </Link>)
+        }
+    };
+
     return (
         <>
             <Card sx={{p: 2}}>
@@ -78,9 +90,7 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                     <Link href={"/logs/" + instance.name} style={{textDecoration: 'none'}}>
                         <Button color="primary">LOGS</Button>
                     </Link>
-                    <Link href={"/terminal/" + instance.name} style={{textDecoration: 'none'}}>
-                        <Button color="primary" disabled={instanceDelete || !instance.is_ready}>TERMINAL</Button>
-                    </Link>
+                    {TerminalButton()}
                     <Button color="error" onClick={handleDeleteDialogOpen} disabled={instanceDelete}>DELETE</Button>
                 </CardActions>
             </Card>
