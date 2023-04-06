@@ -16,6 +16,7 @@ export class InstanceApiRepository implements InstanceRepository {
                         pullRequest: item.git_info.pull_request,
                         port: item.server_port,
                         is_ready: item.is_ready,
+                        createdAt: new Date(item.created_at)
                     };
                 })
             });

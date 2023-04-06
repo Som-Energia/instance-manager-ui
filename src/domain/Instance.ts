@@ -6,4 +6,5 @@ export interface Instance {
     pullRequest: number;
     port: string;
     is_ready: boolean;
+    createdAt: Date;
 }
