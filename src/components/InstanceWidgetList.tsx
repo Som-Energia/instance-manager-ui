@@ -1,10 +1,12 @@
 import {Grid} from "@mui/material";
 import InstanceWidget from "@/components/InstanceWidget"
-import {useEffect, useState} from 'react';
-import {InstanceApiRepository} from "@/infrastructure/InstanceApiRepository";
+import useSWR from 'swr';
 import {Instance} from "@/domain/Instance";
+import {readInstances} from "@/services/api";
+import React, {useState} from "react";
 
 export default function InstanceWidgetList() {
+    const {data, error} = useSWR<Instance[]>('instances', readInstances, {});
 
     const instanceRepository = new InstanceApiRepository();
     const [instances, setInstances] = useState<Instance[]>([])
