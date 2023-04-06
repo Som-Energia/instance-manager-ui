@@ -6,7 +6,7 @@ import {readInstances} from "@/services/api";
 import React, {useState} from "react";
 
 export default function InstanceWidgetList() {
-    const {data, error} = useSWR<Instance[]>('instances', readInstances, {});
+    const {data, error} = useSWR<Instance[]>('instances', readInstances, {refreshInterval: 5000});
 
     const [successDeleteInstanceMessage, setSuccessDeleteInstanceMessage] = useState(false);
     const [successCopyMessage, setSuccessCopyMessage] = useState(false);
