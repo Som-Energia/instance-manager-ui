@@ -35,6 +35,16 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
         }
     };
 
+    const formattedDate = () => {
+        const year = instance.createdAt.getFullYear();
+        const month = String(instance.createdAt.getMonth() + 1).padStart(2, "0");
+        const day = String(instance.createdAt.getDate()).padStart(2, "0");
+        const hour = String(instance.createdAt.getHours()).padStart(2, "0");
+        const minute = String(instance.createdAt.getMinutes()).padStart(2, "0");
+
+        return `${day}/${month}/${year} ${hour}:${minute}`;
+    };
+
     return (
         <>
             <Card sx={{p: 2}}>
@@ -50,6 +60,9 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                     }
                     <Typography variant="h5">
                         instance-{instance.name}
+                    </Typography>
+                    <Typography sx={{fontSize: 14, mt: 2}} color="text.secondary" gutterBottom>
+                        {formattedDate()}
                     </Typography>
                     <Stack direction="row" alignItems="center" gap={1} sx={{mt: 3}}>
                         <BusinessCenterIcon/>
@@ -81,9 +94,6 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                             {process.env.nodeIp}:{instance.port}
                         </Typography>
                     </Stack>
-                    <Typography sx={{fontSize: 14, mt: 2}} color="text.secondary" gutterBottom hidden>
-                        Created at 13-01-2023
-                    </Typography>
                 </CardContent>
                 <CardActions>
                     <Button color="primary" onClick={handleCopyConnection}>COPY</Button>
