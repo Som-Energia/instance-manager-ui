@@ -1,13 +1,20 @@
 import Head from 'next/head'
 import React, {useEffect, useRef, useState} from "react";
 import {useRouter} from "next/router";
-import {InstanceApiRepository} from "@/infrastructure/InstanceApiRepository";
 import ansiToHtml from 'ansi-to-html';
+import {readInstanceLogs} from "@/services/api";
+import useSWR from "swr";
+import {Alert, Snackbar} from "@mui/material";
 
 export default function Home() {
     const router = useRouter()
 
-    const [logs, setLogs] = useState('');
+    const {name} = router.query;
+    const {data, error} = useSWR(`${name}`, readInstanceLogs, {
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false
+    });
+
     const [html, setHtml] = useState('');
     const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -19,19 +26,11 @@ export default function Home() {
     }, [html]);
 
     useEffect(() => {
-        const {name} = router.query
-        if (name) {
-            new InstanceApiRepository().logsByName(name.toString())
-                .then(response => {
-                    setLogs(response.replace(/\r\n/g, '<br/>'))
-                });
+        if (data) {
+            const convert = new ansiToHtml();
+            setHtml(convert.toHtml(data.replace(/\r\n/g, '<br/>')));
         }
-    }, [router.query]);
-
-    useEffect(() => {
-        const convert = new ansiToHtml();
-        setHtml(convert.toHtml(logs));
-    }, [logs]);
+    }, [data]);
 
     return (
         <>
@@ -48,6 +47,15 @@ export default function Home() {
             <main>
                 <div dangerouslySetInnerHTML={{__html: html}}/>
                 <div ref={bottomRef}/>
+
+                {/* Error getting logs message */}
+                {error &&
+                    <Snackbar open={error}>
+                        <Alert variant="filled" severity="error" sx={{width: '100%'}}>
+                            Cannot get instance logs: {error.message}
+                        </Alert>
+                    </Snackbar>
+                }
             </main>
         </>
     )
