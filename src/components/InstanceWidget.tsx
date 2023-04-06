@@ -79,7 +79,7 @@ export default function InstanceWidget({instance}: { instance: Instance }) {
                         <Button color="primary">LOGS</Button>
                     </Link>
                     <Link href={"/terminal/" + instance.name} style={{textDecoration: 'none'}}>
-                        <Button color="primary">TERMINAL</Button>
+                        <Button color="primary" disabled={instanceDelete || !instance.is_ready}>TERMINAL</Button>
                     </Link>
                     <Button color="error" onClick={handleDeleteDialogOpen} disabled={instanceDelete}>DELETE</Button>
                 </CardActions>
