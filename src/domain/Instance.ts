@@ -5,4 +5,5 @@ export interface Instance {
     commit: string;
     pullRequest: number;
     port: string;
+    is_ready: boolean;
 }

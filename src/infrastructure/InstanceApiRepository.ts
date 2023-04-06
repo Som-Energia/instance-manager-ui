@@ -15,6 +15,7 @@ export class InstanceApiRepository implements InstanceRepository {
                         branch: item.git_info.branch,
                         pullRequest: item.git_info.pull_request,
                         port: item.server_port,
+                        is_ready: item.is_ready,
                     };
                 })
             });
