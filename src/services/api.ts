@@ -87,6 +87,32 @@ export const createInstanceFromPullRequest = async (repository: string, pullRequ
     }
 }
 
+export const createInstanceFromBranch = async (repository: string, branch: string, module: string): Promise<void> => {
+    let res;
+
+    try {
+        res = await fetch(
+            process.env.api
+            + "/instances/deploy/branch?repository=" + repository
+            + "&branch=" + branch
+            + "&module=" + module
+            , {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+    } catch {
+        throw new Error("Unable to connect to server");
+    }
+
+    try {
+        await checkResponse(res);
+    } catch (error) {
+        throw error;
+    }
+}
+
 export async function readInstanceLogs(name: string): Promise<string> {
     let res;
 
