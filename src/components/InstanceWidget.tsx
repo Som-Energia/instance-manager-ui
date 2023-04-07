@@ -67,10 +67,10 @@ export default function InstanceWidget(
                     {instanceDeleted &&
                         <Chip label="Deleting" color="error" sx={{mb: 1.5}}/>
                     }
-                    {!instanceDeleted && instance.is_ready &&
+                    {(!instanceDeleted && instance.is_ready) &&
                         <Chip label="Ready" color="primary" sx={{mb: 1.5}}/>
                     }
-                    {!instanceDeleted && !instance.is_ready &&
+                    {(!instanceDeleted && !instance.is_ready) &&
                         <Chip label="Starting" color="warning" sx={{mb: 1.5}}/>
                     }
                     <Typography variant="h5">
