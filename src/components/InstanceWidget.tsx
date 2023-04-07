@@ -100,7 +100,7 @@ export default function InstanceWidget(
                     <Stack direction="row" alignItems="center" gap={1} sx={{mt: 1.5, overflow: 'hidden'}}>
                         <CallMerge/>
                         <Typography sx={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                            {instance.pullRequest}
+                            {instance.pullRequest ? instance.pullRequest : '-'}
                         </Typography>
                     </Stack>
                     <Stack direction="row" alignItems="center" gap={1} sx={{mt: 1.5, overflow: 'hidden'}}>
