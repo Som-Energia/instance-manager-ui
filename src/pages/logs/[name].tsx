@@ -4,13 +4,13 @@ import {useRouter} from "next/router";
 import ansiToHtml from 'ansi-to-html';
 import {readInstanceLogs} from "@/services/api";
 import useSWR from "swr";
-import {Alert, Snackbar} from "@mui/material";
+import {Alert, CircularProgress, Snackbar} from "@mui/material";
 
 export default function Home() {
     const router = useRouter()
 
     const {name} = router.query;
-    const {data, error} = useSWR(`${name}`, readInstanceLogs, {
+    const {data, error, isLoading} = useSWR(`${name}`, readInstanceLogs, {
         revalidateOnFocus: false,
         revalidateOnReconnect: false
     });
@@ -47,6 +47,12 @@ export default function Home() {
             <main>
                 <div dangerouslySetInnerHTML={{__html: html}}/>
                 <div ref={bottomRef}/>
+
+                {(!data || isLoading) &&
+                    <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '95vh'}}>
+                        <CircularProgress/>
+                    </div>
+                }
 
                 {/* Error getting logs message */}
                 {error &&
