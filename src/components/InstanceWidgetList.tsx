@@ -1,4 +1,4 @@
-import {Alert, Grid, Snackbar} from "@mui/material";
+import {Alert, CircularProgress, Grid, Snackbar} from "@mui/material";
 import InstanceWidget from "@/components/InstanceWidget"
 import useSWR from 'swr';
 import {Instance} from "@/domain/Instance";
@@ -6,13 +6,18 @@ import {readInstances} from "@/services/api";
 import React, {useState} from "react";
 
 export default function InstanceWidgetList() {
-    const {data, error} = useSWR<Instance[]>('instances', readInstances, {refreshInterval: 5000});
+    const {data, error, isLoading} = useSWR<Instance[]>('instances', readInstances, {refreshInterval: 5000});
 
     const [successDeleteInstanceMessage, setSuccessDeleteInstanceMessage] = useState(false);
     const [successCopyMessage, setSuccessCopyMessage] = useState(false);
 
     return (
         <>
+            {(!data || isLoading) &&
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%'}}>
+                    <CircularProgress/>
+                </div>
+            }
             <Grid container spacing={5}>
                 {data?.map((instance) => (
                     <Grid item xs={12} sm={12} md={12} lg={6} key={instance.name}>
