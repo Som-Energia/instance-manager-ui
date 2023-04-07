@@ -88,7 +88,7 @@ export default function InstanceWidget(
                     <Stack direction="row" alignItems="center" gap={1} sx={{mt: 1.5, overflow: 'hidden'}}>
                         <AltRouteIcon/>
                         <Typography sx={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                            {instance.branch}
+                            {instance.branch ? instance.branch : '-'}
                         </Typography>
                     </Stack>
                     <Stack direction="row" alignItems="center" gap={1} sx={{mt: 1.5, overflow: 'hidden'}}>
