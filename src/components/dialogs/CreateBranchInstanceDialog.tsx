@@ -11,31 +11,32 @@ import {
 } from "@mui/material";
 import React, {useState} from "react";
 import {mutate} from "swr";
-import {createInstanceFromPullRequest} from "@/services/api";
+import {createInstanceFromBranch} from "@/services/api";
 
-export default function CreatePullRequestInstanceDialog
+export default function CreateBranchInstanceDialog
 ({
-     createPullRequestInstanceDialogOpen,
-     setCreatePullRequestInstanceDialogOpen,
+     createBranchInstanceDialogOpen,
+     setCreateBranchInstanceDialogOpen,
  }: {
-    createPullRequestInstanceDialogOpen: boolean,
-    setCreatePullRequestInstanceDialogOpen: Function,
+    createBranchInstanceDialogOpen: boolean,
+    setCreateBranchInstanceDialogOpen: Function,
 }) {
 
     const [repository, setRepository] = useState('');
-    const [pullRequest, setPullRequest] = useState(0);
+    const [branch, setBranch] = useState('');
+    const [module, setModule] = useState('');
 
     const [errorMessage, setErrorMessage] = useState('');
     const [successCreateInstanceMessage, setSuccessCreateInstanceMessage] = useState(false);
 
     const handleClose = () => {
-        setCreatePullRequestInstanceDialogOpen(false);
+        setCreateBranchInstanceDialogOpen(false);
         setErrorMessage('');
     };
 
     const handleCreate = async () => {
         try {
-            await createInstanceFromPullRequest(repository, pullRequest);
+            await createInstanceFromBranch(repository, branch, module);
             setSuccessCreateInstanceMessage(true);
             handleClose();
             mutate('instances');
@@ -47,11 +48,11 @@ export default function CreatePullRequestInstanceDialog
     return (
         <>
             <Dialog
-                open={createPullRequestInstanceDialogOpen}
+                open={createBranchInstanceDialogOpen}
                 onClose={handleClose}
             >
                 <DialogTitle>
-                    Start new instance from pull request
+                    Start new instance from branch
                 </DialogTitle>
                 <DialogContent>
                     <TextField
@@ -66,11 +67,20 @@ export default function CreatePullRequestInstanceDialog
                     <TextField
                         autoFocus
                         margin="dense"
-                        id="pullRequest"
-                        label="Pull request"
-                        type="number"
+                        id="branch"
+                        label="Branch"
+                        type="text"
                         fullWidth
-                        onChange={(event) => setPullRequest(Number(event.target.value))}
+                        onChange={(event) => setBranch(event.target.value)}
+                    />
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="module"
+                        label="Module to install"
+                        type="text"
+                        fullWidth
+                        onChange={(event) => setModule(event.target.value)}
                     />
                     <Typography color="error" sx={{mt: 1.5}} hidden={!errorMessage}>
                         {errorMessage}

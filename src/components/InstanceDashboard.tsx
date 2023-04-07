@@ -1,13 +1,19 @@
 import {Box, Button, Container, Divider, Typography} from "@mui/material";
 import InstanceWidgetList from "@/components/InstanceWidgetList";
-import CreateInstanceDialog from "@/components/dialogs/CreateInstanceDialog";
+import CreatePullRequestInstanceDialog from "@/components/dialogs/CreatePullRequestInstanceDialog";
 import {useState} from "react";
+import CreateBranchInstanceDialog from "@/components/dialogs/CreateBranchInstanceDialog";
 
 export default function InstanceDashboard() {
-    const [createDialogOpen, setCreateDialogOpen] = useState(false);
+    const [createBranchInstanceDialogOpen, setCreateBranchInstanceDialogOpen] = useState(false);
+    const [createPullRequestInstanceDialogOpen, setCreatePullRequestInstanceDialogOpen] = useState(false);
 
-    const handleCreateDialogOpen = () => {
-        setCreateDialogOpen(true);
+    const handlePullRequestInstanceCreateDialogOpen = () => {
+        setCreatePullRequestInstanceDialogOpen(true);
+    };
+
+    const handleBranchInstanceCreateDialogOpen = () => {
+        setCreateBranchInstanceDialogOpen(true);
     };
 
     const styles = {
@@ -29,16 +35,30 @@ export default function InstanceDashboard() {
     return (
         <Container sx={{my: 5}}>
             <Box style={styles.root}>
-                <Typography variant="h3" style={styles.text}>Current instances</Typography>
-                <Button variant="contained" onClick={handleCreateDialogOpen} color="primary">New instance</Button>
+                <Typography variant="h4" style={styles.text}>Current instances</Typography>
+                <Button
+                    variant="contained"
+                    onClick={handleBranchInstanceCreateDialogOpen}
+                    color="primary"
+                    sx={{mr: 1}}
+                >
+                    New from branch
+                </Button>
+                <Button variant="contained" onClick={handlePullRequestInstanceCreateDialogOpen} color="primary">
+                    New from pull request
+                </Button>
                 <Divider/>
             </Box>
             <Container sx={{my: 5}}>
                 <InstanceWidgetList/>
             </Container>
-            <CreateInstanceDialog
-                createDialogOpen={createDialogOpen}
-                setCreateDialogOpen={setCreateDialogOpen}
+            <CreatePullRequestInstanceDialog
+                createPullRequestInstanceDialogOpen={createPullRequestInstanceDialogOpen}
+                setCreatePullRequestInstanceDialogOpen={setCreatePullRequestInstanceDialogOpen}
+            />
+            <CreateBranchInstanceDialog
+                createBranchInstanceDialogOpen={createBranchInstanceDialogOpen}
+                setCreateBranchInstanceDialogOpen={setCreateBranchInstanceDialogOpen}
             />
         </Container>
     )
