@@ -3,7 +3,12 @@ import {Head, Html, Main, NextScript} from 'next/document'
 export default function Document() {
     return (
         <Html lang="ca">
-            <Head/>
+            <Head>
+                <link
+                    rel="stylesheet"
+                    href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap"
+                />
+            </Head>
             <body>
             <Main/>
             <NextScript/>

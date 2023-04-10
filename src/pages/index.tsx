@@ -18,10 +18,6 @@ export default function Home() {
                 <meta name="description" content="OpenERP server instance manager"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="icon" href="/favicon.png"/>
-                <link
-                    rel="stylesheet"
-                    href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap"
-                />
             </Head>
             <header>
                 <ThemeProvider theme={lightTheme}>
