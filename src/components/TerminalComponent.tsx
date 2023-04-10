@@ -15,7 +15,7 @@ export default function TerminalComponent({instanceName}: { instanceName: string
         terminal.open(termRef.current!);
         terminal.loadAddon(fitAddon.current);
 
-        socketRef.current = new WebSocket(`ws://localhost:8000/api/instances/${instanceName}/ssh`);
+        socketRef.current = new WebSocket(`${process.env.websocketApi}/instances/${instanceName}/ssh`);
 
         socketRef.current.onopen = () => {
             console.log("Connected to SSH");

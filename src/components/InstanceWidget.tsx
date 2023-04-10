@@ -106,7 +106,7 @@ export default function InstanceWidget(
                     <Stack direction="row" alignItems="center" gap={1} sx={{mt: 1.5, overflow: 'hidden'}}>
                         <LinkIcon/>
                         <Typography sx={{whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                            {process.env.nodeIp}:{instance.port}
+                            {process.env.domain}:{instance.port}
                         </Typography>
                     </Stack>
                 </CardContent>
