@@ -11,7 +11,12 @@ export default function TerminalComponent({instanceName}: { instanceName: string
     const terminalRef = useRef<Terminal | null>(null);
 
     useEffect(() => {
+        const handleResize = () => {
+            fitAddon.current.fit();
+            sendResizeInfo();
+        };
         const terminal = new Terminal();
+
         terminal.open(termRef.current!);
         terminal.loadAddon(fitAddon.current);
 
@@ -34,11 +39,6 @@ export default function TerminalComponent({instanceName}: { instanceName: string
             window.removeEventListener("resize", handleResize);
         };
     }, [instanceName]);
-
-    const handleResize = () => {
-        fitAddon.current.fit();
-        sendResizeInfo();
-    };
 
     const sendResizeInfo = () => {
         const rows = Math.floor(window.innerHeight / 17);
