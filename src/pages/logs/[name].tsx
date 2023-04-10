@@ -35,7 +35,7 @@ export default function Home() {
     return (
         <>
             <Head>
-                <title>Instance-Manager UI</title>
+                <title>Logs{name && ' - ' + name}</title>
                 <meta name="description" content="OpenERP server instance manager"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="icon" href="/favicon.png"/>
