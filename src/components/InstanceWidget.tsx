@@ -26,14 +26,14 @@ export default function InstanceWidget(
         setDeleteDialogOpen(true);
     };
 
-    const handleCopyIp = () => {
-        if (process.env.nodeIp) {
-            navigator.clipboard.writeText(process.env.nodeIp.toString());
+    const handleCopyHost = () => {
+        if (process.env.domain) {
+            navigator.clipboard.writeText(process.env.domain.toString());
             setSuccessCopyMessage(true);
         }
     }
 
-    const handleCopyNode = () => {
+    const handleCopyPort = () => {
         setSuccessCopyMessage(true);
         navigator.clipboard.writeText(instance.port);
     }
@@ -111,8 +111,8 @@ export default function InstanceWidget(
                     </Stack>
                 </CardContent>
                 <CardActions>
-                    <Button color="primary" onClick={handleCopyIp}>COPY IP</Button>
-                    <Button color="primary" onClick={handleCopyNode}>COPY PORT</Button>
+                    <Button color="primary" onClick={handleCopyHost}>COPY HOST</Button>
+                    <Button color="primary" onClick={handleCopyPort}>COPY PORT</Button>
                     <Link href={"/logs/" + instance.name} style={{textDecoration: 'none'}}>
                         <Button color="primary">LOGS</Button>
                     </Link>
