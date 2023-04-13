@@ -1,5 +1,6 @@
 import {
     Alert,
+    Autocomplete,
     Button,
     Dialog,
     DialogActions,
@@ -10,8 +11,8 @@ import {
     Typography
 } from "@mui/material";
 import React, {useState} from "react";
-import {mutate} from "swr";
-import {createInstanceFromPullRequest} from "@/services/api";
+import useSWR, {mutate} from "swr";
+import {createInstanceFromPullRequest, readAllowedRepositories} from "@/services/api";
 
 export default function CreatePullRequestInstanceDialog
 ({
@@ -27,6 +28,8 @@ export default function CreatePullRequestInstanceDialog
 
     const [errorMessage, setErrorMessage] = useState('');
     const [successCreateInstanceMessage, setSuccessCreateInstanceMessage] = useState(false);
+
+    const {data, error, isLoading} = useSWR<string[]>('allowed-repositories', readAllowedRepositories);
 
     const handleClose = () => {
         setCreatePullRequestInstanceDialogOpen(false);
@@ -54,14 +57,18 @@ export default function CreatePullRequestInstanceDialog
                     Start new instance from pull request
                 </DialogTitle>
                 <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
+                    <Autocomplete
+                        freeSolo
                         id="repository"
-                        label="Repository"
-                        type="text"
-                        fullWidth
-                        onChange={(event) => setRepository(event.target.value)}
+                        options={data || []}
+                        onChange={(event, newValue) => setRepository(newValue || '')}
+                        renderInput={(params) =>
+                            <TextField
+                                {...params}
+                                margin="dense"
+                                fullWidth
+                                label="Repository"/>
+                        }
                     />
                     <TextField
                         autoFocus

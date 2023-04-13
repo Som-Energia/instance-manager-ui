@@ -113,6 +113,24 @@ export const createInstanceFromBranch = async (repository: string, branch: strin
     }
 }
 
+export async function readAllowedRepositories(): Promise<string[]> {
+    let res;
+
+    try {
+        res = await fetch(process.env.api + "/allowed-repositories/");
+    } catch {
+        throw new Error("Unable to connect to server");
+    }
+
+    try {
+        await checkResponse(res);
+    } catch (error) {
+        throw error;
+    }
+
+    return await res.json();
+}
+
 export async function readInstanceLogs(name: string): Promise<string> {
     let res;
 

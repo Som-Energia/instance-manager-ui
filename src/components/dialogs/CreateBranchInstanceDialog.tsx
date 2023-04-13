@@ -1,5 +1,6 @@
 import {
     Alert,
+    Autocomplete,
     Button,
     Dialog,
     DialogActions,
@@ -10,8 +11,8 @@ import {
     Typography
 } from "@mui/material";
 import React, {useState} from "react";
-import {mutate} from "swr";
-import {createInstanceFromBranch} from "@/services/api";
+import useSWR, {mutate} from "swr";
+import {createInstanceFromBranch, readAllowedRepositories} from "@/services/api";
 
 export default function CreateBranchInstanceDialog
 ({
@@ -28,6 +29,8 @@ export default function CreateBranchInstanceDialog
 
     const [errorMessage, setErrorMessage] = useState('');
     const [successCreateInstanceMessage, setSuccessCreateInstanceMessage] = useState(false);
+
+    const {data, error, isLoading} = useSWR<string[]>('allowed-repositories', readAllowedRepositories);
 
     const handleClose = () => {
         setCreateBranchInstanceDialogOpen(false);
@@ -55,14 +58,18 @@ export default function CreateBranchInstanceDialog
                     Start new instance from branch
                 </DialogTitle>
                 <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
+                    <Autocomplete
+                        freeSolo
                         id="repository"
-                        label="Repository"
-                        type="text"
-                        fullWidth
-                        onChange={(event) => setRepository(event.target.value)}
+                        options={data || []}
+                        onChange={(event, newValue) => setRepository(newValue || '')}
+                        renderInput={(params) =>
+                            <TextField
+                                {...params}
+                                margin="dense"
+                                fullWidth
+                                label="Repository"/>
+                        }
                     />
                     <TextField
                         autoFocus
