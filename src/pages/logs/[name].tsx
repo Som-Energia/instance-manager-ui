@@ -28,7 +28,7 @@ export default function Home() {
     useEffect(() => {
         if (data) {
             const convert = new ansiToHtml();
-            setHtml(convert.toHtml(data.replace(/\r\n/g, '<br/>')));
+            setHtml(convert.toHtml(data.replace(/\n/g, '<br/>')));
         }
     }, [data]);
 
