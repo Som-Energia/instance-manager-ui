@@ -1,8 +1,10 @@
-import {Box, Button, Container, Divider, Menu, MenuItem, Typography} from "@mui/material";
+import {Box, Button, Container, Divider, IconButton, Menu, MenuItem, Typography} from "@mui/material";
 import InstanceWidgetList from "@/components/InstanceWidgetList";
 import CreatePullRequestInstanceDialog from "@/components/dialogs/CreatePullRequestInstanceDialog";
 import {MouseEvent, useState} from "react";
 import CreateBranchInstanceDialog from "@/components/dialogs/CreateBranchInstanceDialog";
+import FilterListIcon from '@mui/icons-material/FilterList';
+import FilterListOffIcon from '@mui/icons-material/FilterListOff';
 
 export default function InstanceDashboard() {
     const styles = {
@@ -32,9 +34,10 @@ export default function InstanceDashboard() {
         setCreateBranchInstanceDialogOpen(true);
     };
 
-    // Create instance dropdown menu
-
+    // Show instance dropdown menu
     const [anchorEl, setAnchorEl] = useState<EventTarget | null>(null);
+    // Show filter inputs
+    const [showFilters, setShowFilters] = useState(false);
 
     const handleButtonClick = (event: MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -62,6 +65,9 @@ export default function InstanceDashboard() {
         <Container sx={{my: 5}}>
             <Box style={styles.root}>
                 <Typography variant="h4" style={styles.text}>Current instances</Typography>
+                <IconButton aria-label="delete" onClick={() => setShowFilters(!showFilters)} sx={{mr: 2}}>
+                    {showFilters ? <FilterListOffIcon/> : <FilterListIcon/>}
+                </IconButton>
                 <Button
                     variant="contained"
                     onClick={handleButtonClick}
@@ -85,7 +91,7 @@ export default function InstanceDashboard() {
                 <Divider/>
             </Box>
             <Container sx={{my: 5}}>
-                <InstanceWidgetList/>
+                <InstanceWidgetList showFilters={showFilters}/>
             </Container>
             <CreatePullRequestInstanceDialog
                 createPullRequestInstanceDialogOpen={createPullRequestInstanceDialogOpen}
