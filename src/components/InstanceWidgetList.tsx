@@ -27,10 +27,10 @@ export default function InstanceWidgetList({showFilters}: { showFilters: boolean
 
     useEffect(() => {
         const filteredItems = data?.filter((instance) =>
-            instance.name?.toLowerCase().includes(nameFilter)
-            && instance.repository?.toLowerCase().includes(repositoryFilter)
-            && (pullRequestFilter == '' || instance.pullRequest?.toString().toLowerCase().includes(pullRequestFilter))
-            && !instance.branch || instance.branch.toLowerCase().includes(branchFilter)
+            instance.name?.toLowerCase().includes(nameFilter?.toLowerCase())
+            && instance.repository?.toLowerCase().includes(repositoryFilter.toLowerCase())
+            && (pullRequestFilter == '' || instance.pullRequest?.toString().includes(pullRequestFilter))
+            && (!instance.branch || instance.branch?.toLowerCase().includes(branchFilter.toLowerCase()))
             && (!isReadyFilter || instance.is_ready)
         );
         setFilteredData(filteredItems || []);
