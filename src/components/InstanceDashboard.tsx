@@ -3,6 +3,7 @@ import InstanceWidgetList from "@/components/InstanceWidgetList";
 import CreatePullRequestInstanceDialog from "@/components/dialogs/CreatePullRequestInstanceDialog";
 import {MouseEvent, useState} from "react";
 import CreateBranchInstanceDialog from "@/components/dialogs/CreateBranchInstanceDialog";
+import CreateCommitInstanceDialog from "@/components/dialogs/CreateCommitInstanceDialog";
 import FilterListIcon from '@mui/icons-material/FilterList';
 import FilterListOffIcon from '@mui/icons-material/FilterListOff';
 
@@ -25,6 +26,7 @@ export default function InstanceDashboard() {
 
     const [createBranchInstanceDialogOpen, setCreateBranchInstanceDialogOpen] = useState(false);
     const [createPullRequestInstanceDialogOpen, setCreatePullRequestInstanceDialogOpen] = useState(false);
+    const [createCommitInstanceDialogOpen, setCreateCommitInstanceDialogOpen] = useState(false);
 
     const handlePullRequestInstanceCreateDialogOpen = () => {
         setCreatePullRequestInstanceDialogOpen(true);
@@ -32,6 +34,10 @@ export default function InstanceDashboard() {
 
     const handleBranchInstanceCreateDialogOpen = () => {
         setCreateBranchInstanceDialogOpen(true);
+    };
+
+    const handleCommitInstanceCreateDialogOpen = () => {
+        setCreateCommitInstanceDialogOpen(true);
     };
 
     // Show instance dropdown menu
@@ -50,6 +56,9 @@ export default function InstanceDashboard() {
                 break;
             case 'pull_request':
                 handlePullRequestInstanceCreateDialogOpen();
+                break;
+            case 'commit':
+                handleCommitInstanceCreateDialogOpen();
                 break;
             default:
                 break;
@@ -87,6 +96,9 @@ export default function InstanceDashboard() {
                     <MenuItem onClick={(event) => handleMenuItemClick(event, 'pull_request')}>
                         From pull request
                     </MenuItem>
+                    <MenuItem onClick={(event) => handleMenuItemClick(event, 'commit')}>
+                        From commit
+                    </MenuItem>
                 </Menu>
                 <Divider/>
             </Box>
@@ -100,6 +112,10 @@ export default function InstanceDashboard() {
             <CreateBranchInstanceDialog
                 createBranchInstanceDialogOpen={createBranchInstanceDialogOpen}
                 setCreateBranchInstanceDialogOpen={setCreateBranchInstanceDialogOpen}
+            />
+            <CreateCommitInstanceDialog
+                createCommitInstanceDialogOpen={createCommitInstanceDialogOpen}
+                setCreateCommitInstanceDialogOpen={setCreateCommitInstanceDialogOpen}
             />
         </Container>
     )

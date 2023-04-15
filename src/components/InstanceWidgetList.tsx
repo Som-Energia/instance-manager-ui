@@ -30,7 +30,7 @@ export default function InstanceWidgetList({showFilters}: { showFilters: boolean
             instance.name?.toLowerCase().includes(nameFilter)
             && instance.repository?.toLowerCase().includes(repositoryFilter)
             && (pullRequestFilter == '' || instance.pullRequest?.toString().toLowerCase().includes(pullRequestFilter))
-            && instance.branch?.toLowerCase().includes(branchFilter)
+            && !instance.branch || instance.branch.toLowerCase().includes(branchFilter)
             && (!isReadyFilter || instance.is_ready)
         );
         setFilteredData(filteredItems || []);

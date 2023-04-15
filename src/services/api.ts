@@ -113,6 +113,32 @@ export const createInstanceFromBranch = async (repository: string, branch: strin
     }
 }
 
+export const createInstanceFromCommit = async (repository: string, commit: string, module: string): Promise<void> => {
+    let res;
+
+    try {
+        res = await fetch(
+            process.env.api
+            + "/instances/deploy/commit?repository=" + repository
+            + "&commit=" + commit
+            + "&module=" + module
+            , {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            });
+    } catch {
+        throw new Error("Unable to connect to server");
+    }
+
+    try {
+        await checkResponse(res);
+    } catch (error) {
+        throw error;
+    }
+}
+
 export async function readAllowedRepositories(): Promise<string[]> {
     let res;
 
