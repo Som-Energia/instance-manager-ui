@@ -14,6 +14,7 @@ import useSWR from 'swr';
 import {Instance} from "@/domain/Instance";
 import {readInstances} from "@/services/api";
 import React, {useEffect, useState} from "react";
+import {useRouter} from "next/router";
 
 export default function InstanceWidgetList({showFilters}: { showFilters: boolean }) {
     const [nameFilter, setNameFilter] = useState('');
@@ -21,6 +22,9 @@ export default function InstanceWidgetList({showFilters}: { showFilters: boolean
     const [branchFilter, setBranchFilter] = useState('');
     const [pullRequestFilter, setPullRequestFilter] = useState('');
     const [isReadyFilter, setIsReadyFilter] = useState(false);
+
+    const router = useRouter()
+    const {name} = router.query
 
     const [filteredData, setFilteredData] = useState<Instance[]>([]);
     const {data, error, isLoading} = useSWR<Instance[]>('instances', readInstances, {refreshInterval: 5000});
@@ -35,6 +39,12 @@ export default function InstanceWidgetList({showFilters}: { showFilters: boolean
         );
         setFilteredData(filteredItems || []);
     }, [data, nameFilter, repositoryFilter, branchFilter, pullRequestFilter, isReadyFilter]);
+
+    useEffect(() => {
+        if (name) {
+            setNameFilter(name.toString())
+        }
+    }, [name]);
 
     const [successDeleteInstanceMessage, setSuccessDeleteInstanceMessage] = useState(false);
     const [successCopyMessage, setSuccessCopyMessage] = useState(false);
